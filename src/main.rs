@@ -127,6 +127,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     logger::init_logger()?;
     info!("Cosmic starting up!");
 
+    // Advise xdg-desktop-portal which *-portals.conf to load
+    std::env::set_var("XDG_CURRENT_DESKTOP", "cosmic");
+    // Mimic wlroots, used by https://github.com/qt/qtbase/commit/4b4870a12cd9
+    std::env::set_var("XDG_SESSION_TYPE", "wayland");
+	
     profiling::register_thread!("Main Thread");
     #[cfg(feature = "profile-with-tracy")]
     tracy_client::Client::start();
